@@ -20,8 +20,8 @@ export default function Header() {
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src={"/logos/logo.png"}
-            alt="Vehiql Logo"
+            src={"/logos/logo3.png"}
+            alt="Splitrs Logo"
             width={200}
             height={60}
             className="h-11 w-auto object-contain"
