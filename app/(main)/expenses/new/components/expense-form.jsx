@@ -49,7 +49,7 @@ export function ExpenseForm({ type = "individual", onSuccess }) {
   const [splits, setSplits] = useState([]);
 
   // Mutations and queries
-  const { data: currentUser } = useConvexQuery(api.users.getCurrentUser);
+  const { data: currentUser } = useConvexQuery(api.users.current);
 
   const createExpense = useConvexMutation(api.expenses.createExpense);
   const categories = getAllCategories();

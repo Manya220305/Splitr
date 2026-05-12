@@ -27,7 +27,7 @@ const settlementSchema = z.object({
 });
 
 export default function SettlementForm({ entityType, entityData, onSuccess }) {
-  const { data: currentUser } = useConvexQuery(api.users.getCurrentUser);
+  const { data: currentUser } = useConvexQuery(api.users.current);
   const createSettlement = useConvexMutation(api.settlements.createSettlement);
 
   // Set up form with validation

@@ -10,6 +10,7 @@ export const getAllContacts = query({
   handler: async (ctx) => {
     // Use the centralized getCurrentUser instead of duplicating auth logic
     const currentUser = await ctx.runQuery(internal.users.getCurrentUser);
+    if (!currentUser) return { users: [], groups: [] };
 
     /* ── personal expenses where YOU are the payer ─────────────────────── */
     const expensesYouPaid = await ctx.db
@@ -71,11 +72,12 @@ export const getAllContacts = query({
         type: "group",
       }));
 
-    /* sort alphabetically */
-    contactUsers.sort((a, b) => a?.name.localeCompare(b?.name));
+    /* filter and sort */
+    const filteredUsers = contactUsers.filter(Boolean);
+    filteredUsers.sort((a, b) => a.name.localeCompare(b.name));
     userGroups.sort((a, b) => a.name.localeCompare(b.name));
 
-    return { users: contactUsers.filter(Boolean), groups: userGroups };
+    return { users: filteredUsers, groups: userGroups };
   },
 });
 
@@ -91,6 +93,7 @@ export const createGroup = mutation({
   handler: async (ctx, args) => {
     // Use the centralized getCurrentUser instead of duplicating auth logic
     const currentUser = await ctx.runQuery(internal.users.getCurrentUser);
+    if (!currentUser) throw new Error("Not authenticated");
 
     if (!args.name.trim()) throw new Error("Group name cannot be empty");
 

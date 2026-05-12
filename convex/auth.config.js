@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: process.env.CLERK_JWT_ISSUER_DOMAIN,
+      domain: "sharp-tarpon-92.clerk.accounts.dev",
       applicationID: "convex",
     },
   ],

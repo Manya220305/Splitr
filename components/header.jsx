@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import { LayoutDashboard } from "lucide-react";
 import Link from "next/link";
-import { SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useStoreUser } from "@/hooks/use-store-user";
 import { BarLoader } from "react-spinners";
 import { Authenticated, Unauthenticated } from "convex/react";
@@ -20,8 +20,8 @@ export default function Header() {
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src={"/logos/logo3.png"}
-            alt="Splitrs Logo"
+            src={"/logos/logo.png"}
+            alt="Vehiql Logo"
             width={200}
             height={60}
             className="h-11 w-auto object-contain"
@@ -46,7 +46,7 @@ export default function Header() {
         )}
 
         <div className="flex items-center gap-4">
-          <Authenticated>
+          <SignedIn>
             <Link href="/dashboard">
               <Button
                 variant="outline"
@@ -70,19 +70,19 @@ export default function Header() {
               }}
               afterSignOutUrl="/"
             />
-          </Authenticated>
+          </SignedIn>
 
-          <Unauthenticated>
-            <SignInButton>
+          <SignedOut>
+            <SignInButton mode="modal">
               <Button variant="ghost">Sign In</Button>
             </SignInButton>
 
-            <SignUpButton>
+            <SignUpButton mode="modal">
               <Button className="bg-green-600 hover:bg-green-700 border-none">
                 Get Started
               </Button>
             </SignUpButton>
-          </Unauthenticated>
+          </SignedOut>
         </div>
       </nav>
       {isLoading && <BarLoader width={"100%"} color="#36d7b7" />}

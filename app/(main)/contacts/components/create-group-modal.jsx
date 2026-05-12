@@ -45,7 +45,7 @@ export function CreateGroupModal({ isOpen, onClose, onSuccess }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [commandOpen, setCommandOpen] = useState(false);
 
-  const { data: currentUser } = useConvexQuery(api.users.getCurrentUser);
+  const { data: currentUser } = useConvexQuery(api.users.current);
   const createGroup = useConvexMutation(api.contacts.createGroup);
   const { data: searchResults, isLoading: isSearching } = useConvexQuery(
     api.users.searchUsers,

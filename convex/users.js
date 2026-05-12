@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { mutation, query, internalQuery } from "./_generated/server";
 import { internal } from "./_generated/api";
 
 export const store = mutation({
@@ -38,12 +38,12 @@ export const store = mutation({
   },
 });
 
-// Get current user
-export const getCurrentUser = query({
+// Get current user (Internal version for backend)
+export const getCurrentUser = internalQuery({
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
-      throw new Error("Not authenticated");
+      return null; // Return null instead of throwing for internal calls if not found
     }
 
     const user = await ctx.db
@@ -53,11 +53,22 @@ export const getCurrentUser = query({
       )
       .first();
 
-    if (!user) {
-      throw new Error("User not found");
-    }
-
     return user;
+  },
+});
+
+// Public version for frontend
+export const current = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return null;
+
+    return await ctx.db
+      .query("users")
+      .withIndex("by_token", (q) =>
+        q.eq("tokenIdentifier", identity.tokenIdentifier)
+      )
+      .unique();
   },
 });
 

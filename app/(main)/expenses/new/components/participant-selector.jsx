@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/popover";
 
 export function ParticipantSelector({ participants, onParticipantsChange }) {
-  const { data: currentUser } = useConvexQuery(api.users.getCurrentUser);
+  const { data: currentUser } = useConvexQuery(api.users.current);
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
